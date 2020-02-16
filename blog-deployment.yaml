@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blog
+  name: redmanh-blog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - image: redmanh/blog:latest
+        name: redmanh-blog
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redmanh-blog
+  labels:
+    app: blog
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    name: blog-http
+  selector:
+    app: blog
